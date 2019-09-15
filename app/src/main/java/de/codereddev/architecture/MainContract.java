@@ -6,6 +6,10 @@ public class MainContract {
         void showFirstName(String firstName);
 
         void showLastName(String lastName);
+
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 
     public interface Presenter {

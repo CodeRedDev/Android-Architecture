@@ -1,5 +1,7 @@
 package de.codereddev.architecture;
 
+import android.os.Handler;
+
 import de.codereddev.architecture.model.NamePair;
 import de.codereddev.architecture.model.NamePairRepository;
 
@@ -27,23 +29,34 @@ public class NamePairPresenter implements MainContract.Presenter {
 
     @Override
     public void updateFirstName() {
+        namePairView.showProgressBar();
         repository.updateFirstName();
 
-        NamePair currentPair = repository.getNamePair();
-
-        if (isSubscribed) {
-            namePairView.showFirstName(currentPair.getFirstName());
+        if (isSubscribed) {new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NamePair currentPair = repository.getNamePair();
+                namePairView.hideProgressBar();
+                namePairView.showFirstName(currentPair.getFirstName());
+            }
+        }, 1000);
         }
     }
 
     @Override
     public void updateLastName() {
+        namePairView.showProgressBar();
         repository.updateLastName();
 
-        NamePair currentPair = repository.getNamePair();
-
         if (isSubscribed) {
-            namePairView.showLastName(currentPair.getLastName());
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NamePair currentPair = repository.getNamePair();
+                    namePairView.hideProgressBar();
+                    namePairView.showLastName(currentPair.getLastName());
+                }
+            }, 1000);
         }
     }
 
