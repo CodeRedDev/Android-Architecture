@@ -2,7 +2,7 @@ package de.codereddev.architecture;
 
 import de.codereddev.architecture.model.NamePairRepository;
 
-public class Controller {
+public class Controller implements MainContract.Observer {
 
     private NamePairRepository repository = NamePairRepository.getInstance();
 
@@ -13,10 +13,17 @@ public class Controller {
     }
 
     public void updateFirstName() {
+        namePairView.showProgressBar();
         repository.updateFirstName();
     }
 
     public void updateLastName() {
+        namePairView.showProgressBar();
         repository.updateLastName();
+    }
+
+    @Override
+    public void onModelUpdated() {
+        namePairView.hideProgressBar();
     }
 }

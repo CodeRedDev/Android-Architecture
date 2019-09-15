@@ -25,7 +25,7 @@ public class NamePairRepository {
         return instance;
     }
 
-    private ArrayList<MainContract.View> observers = new ArrayList<>();
+    private ArrayList<MainContract.Observer> observers = new ArrayList<>();
 
     private NamePair namePair;
 
@@ -35,11 +35,11 @@ public class NamePairRepository {
         namePair = new NamePair(firstNames[0], lastNames[0]);
     }
 
-    public void addObserver(MainContract.View observer) {
+    public void addObserver(MainContract.Observer observer) {
         observers.add(observer);
     }
 
-    public void deleteObserver(MainContract.View observer) {
+    public void deleteObserver(MainContract.Observer observer) {
         observers.remove(observer);
     }
 
@@ -58,7 +58,7 @@ public class NamePairRepository {
     }
 
     private void notifyObservers() {
-        for (MainContract.View observer: observers) {
+        for (MainContract.Observer observer: observers) {
             observer.onModelUpdated();
         }
     }
