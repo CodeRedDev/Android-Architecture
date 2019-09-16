@@ -2,9 +2,10 @@ package de.codereddev.architecture.model;
 
 import android.os.Handler;
 
-import java.util.Random;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import io.reactivex.Observable;
+import java.util.Random;
 
 /**
  * This will simulate a data repository that could retrieve data
@@ -26,27 +27,29 @@ public class NamePairRepository {
         return instance;
     }
 
-    private NamePair namePair;
+    private MutableLiveData<NamePair> namePair;
 
     private Random random = new Random();
 
     private NamePairRepository() {
-        namePair = new NamePair(firstNames[0], lastNames[0]);
+        namePair = new MutableLiveData<>(new NamePair(firstNames[0], lastNames[0]));
     }
 
-    public Observable<NamePair> getNamePair() {
-        return Observable.just(namePair);
+    public LiveData<NamePair> getNamePair() {
+        return namePair;
     }
 
     public void updateFirstName() {
-        new Handler().postDelayed(() ->
-                        namePair.setFirstName(firstNames[random.nextInt(firstNames.length)]),
-                1000);
+        new Handler().postDelayed(() -> {
+            NamePair newPair = new NamePair(firstNames[random.nextInt(firstNames.length)], namePair.getValue().getLastName());
+            namePair.postValue(newPair);
+        }, 1000);
     }
 
     public void updateLastName() {
-        new Handler().postDelayed(() ->
-                        namePair.setLastName(lastNames[random.nextInt(lastNames.length)]),
-                1000);
+        new Handler().postDelayed(() -> {
+            NamePair newPair = new NamePair(namePair.getValue().getFirstName(), lastNames[random.nextInt(lastNames.length)]);
+            namePair.postValue(newPair);
+        }, 1000);
     }
 }

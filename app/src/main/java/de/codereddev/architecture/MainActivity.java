@@ -5,15 +5,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import de.codereddev.architecture.model.NamePair;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,15 +17,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView lastNameTv;
     private ProgressBar progressBar;
 
-    private CompositeDisposable compositeDisposable;
-    private ViewModel viewModel;
+    private PairViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewModel = new ViewModel();
+        viewModel = ViewModelProviders.of(this).get(PairViewModel.class);
 
         firstNameTv = findViewById(R.id.firstNameTv);
         lastNameTv = findViewById(R.id.lastNameTv);
@@ -37,38 +32,40 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton updateFirstFab = findViewById(R.id.updateFirstFab);
         updateFirstFab.setOnClickListener(view -> {
-                    progressBar.setVisibility(View.VISIBLE);
+                    showProgressBar();
                     viewModel.updateFirstName();
                 }
         );
 
         FloatingActionButton updateLastFab = findViewById(R.id.updateLastFab);
         updateLastFab.setOnClickListener(view -> {
-                    progressBar.setVisibility(View.VISIBLE);
+                    showProgressBar();
                     viewModel.updateLastName();
                 }
         );
+
+        addObservers();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(viewModel.getNamePair()
-        .subscribeOn(Schedulers.computation())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::setNames));
+    private void addObservers() {
+        final Observer<String> firstNameObserver = firstName -> {
+            hideProgressBar();
+            firstNameTv.setText(firstName);
+        };
+        viewModel.getFirstName().observe(this, firstNameObserver);
+
+        final Observer<String> lastNameObserver = lastName -> {
+            hideProgressBar();
+            lastNameTv.setText(lastName);
+        };
+        viewModel.getLastName().observe(this, lastNameObserver);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        compositeDisposable.clear();
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
-    private void setNames(@NonNull final NamePair currentPair) {
+    private void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
-        firstNameTv.setText(currentPair.getFirstName());
-        lastNameTv.setText(currentPair.getLastName());
     }
 }
