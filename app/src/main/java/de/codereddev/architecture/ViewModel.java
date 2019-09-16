@@ -2,7 +2,7 @@ package de.codereddev.architecture;
 
 import de.codereddev.architecture.model.NamePair;
 import de.codereddev.architecture.model.NamePairRepository;
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 
 public class ViewModel {
 

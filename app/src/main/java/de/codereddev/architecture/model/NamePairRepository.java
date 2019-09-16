@@ -1,13 +1,15 @@
 package de.codereddev.architecture.model;
 
+import android.os.Handler;
+
 import java.util.Random;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 
 /**
  * This will simulate a data repository that could retrieve data
  * from local or network providers in an actual implementation.
- *
+ * <p>
  * This repository is only implemented as Singleton for simulation reasons.
  */
 public class NamePairRepository {
@@ -37,10 +39,14 @@ public class NamePairRepository {
     }
 
     public void updateFirstName() {
-        namePair.setFirstName(firstNames[random.nextInt(firstNames.length)]);
+        new Handler().postDelayed(() ->
+                        namePair.setFirstName(firstNames[random.nextInt(firstNames.length)]),
+                1000);
     }
 
     public void updateLastName() {
-        namePair.setLastName(lastNames[random.nextInt(lastNames.length)]);
+        new Handler().postDelayed(() ->
+                        namePair.setLastName(lastNames[random.nextInt(lastNames.length)]),
+                1000);
     }
 }
