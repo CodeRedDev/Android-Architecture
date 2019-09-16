@@ -32,14 +32,12 @@ public class NamePairPresenter implements MainContract.Presenter {
         namePairView.showProgressBar();
         repository.updateFirstName();
 
-        if (isSubscribed) {new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (isSubscribed) {
+            new Handler().postDelayed(() -> {
                 NamePair currentPair = repository.getNamePair();
                 namePairView.hideProgressBar();
                 namePairView.showFirstName(currentPair.getFirstName());
-            }
-        }, 1000);
+            }, 1000);
         }
     }
 
@@ -49,13 +47,10 @@ public class NamePairPresenter implements MainContract.Presenter {
         repository.updateLastName();
 
         if (isSubscribed) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NamePair currentPair = repository.getNamePair();
-                    namePairView.hideProgressBar();
-                    namePairView.showLastName(currentPair.getLastName());
-                }
+            new Handler().postDelayed(() -> {
+                NamePair currentPair = repository.getNamePair();
+                namePairView.hideProgressBar();
+                namePairView.showLastName(currentPair.getLastName());
             }, 1000);
         }
     }

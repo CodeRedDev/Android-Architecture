@@ -29,20 +29,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         progressBar = findViewById(R.id.progressBar);
 
         FloatingActionButton updateFirstFab = findViewById(R.id.updateFirstFab);
-        updateFirstFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.updateFirstName();
-            }
-        });
+        updateFirstFab.setOnClickListener(view -> presenter.updateFirstName());
 
         FloatingActionButton updateLastFab = findViewById(R.id.updateLastFab);
-        updateLastFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.updateLastName();
-            }
-        });
+        updateLastFab.setOnClickListener(view -> presenter.updateLastName());
     }
 
     @Override
