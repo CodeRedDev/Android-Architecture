@@ -52,23 +52,13 @@ public class NamePairRepository {
     public void updateFirstName() {
         namePair.setFirstName(firstNames[random.nextInt(firstNames.length)]);
         // This simulates a data request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notifyObservers();
-            }
-        }, 1000);
+        new Handler().postDelayed(this::notifyObservers, 1000);
     }
 
     public void updateLastName() {
         namePair.setLastName(lastNames[random.nextInt(lastNames.length)]);
         // This simulates a data request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notifyObservers();
-            }
-        }, 1000);
+        new Handler().postDelayed(this::notifyObservers, 1000);
     }
 
     private void notifyObservers() {
