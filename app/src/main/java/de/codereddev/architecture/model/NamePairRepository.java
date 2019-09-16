@@ -2,6 +2,8 @@ package de.codereddev.architecture.model;
 
 import java.util.Random;
 
+import io.reactivex.rxjava3.core.Observable;
+
 /**
  * This will simulate a data repository that could retrieve data
  * from local or network providers in an actual implementation.
@@ -30,8 +32,8 @@ public class NamePairRepository {
         namePair = new NamePair(firstNames[0], lastNames[0]);
     }
 
-    public NamePair getNamePair() {
-        return namePair;
+    public Observable<NamePair> getNamePair() {
+        return Observable.just(namePair);
     }
 
     public void updateFirstName() {
