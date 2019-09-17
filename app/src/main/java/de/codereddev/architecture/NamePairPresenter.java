@@ -5,19 +5,18 @@ import android.os.Handler;
 import de.codereddev.architecture.model.NamePair;
 import de.codereddev.architecture.model.NamePairRepository;
 
-public class NamePairPresenter implements MainContract.Presenter {
+public class NamePairPresenter implements BasePresenter {
 
     private NamePairRepository repository = NamePairRepository.getInstance();
 
-    private MainContract.View namePairView;
+    private NamePairView namePairView;
 
     private boolean isSubscribed = false;
 
-    public NamePairPresenter(MainContract.View namePairView) {
+    public NamePairPresenter(NamePairView namePairView) {
         this.namePairView = namePairView;
     }
 
-    @Override
     public void loadNamePair() {
         NamePair currentPair = repository.getNamePair();
 
@@ -27,7 +26,6 @@ public class NamePairPresenter implements MainContract.Presenter {
         }
     }
 
-    @Override
     public void updateFirstName() {
         namePairView.showProgressBar();
         repository.updateFirstName();
@@ -41,7 +39,6 @@ public class NamePairPresenter implements MainContract.Presenter {
         }
     }
 
-    @Override
     public void updateLastName() {
         namePairView.showProgressBar();
         repository.updateLastName();

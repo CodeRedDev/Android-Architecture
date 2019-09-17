@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends AppCompatActivity implements NamePairView {
 
     private TextView firstNameTv;
     private TextView lastNameTv;
     private ProgressBar progressBar;
 
-    private MainContract.Presenter presenter;
+    private NamePairPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
