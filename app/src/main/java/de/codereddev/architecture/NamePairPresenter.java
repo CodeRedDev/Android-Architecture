@@ -28,28 +28,24 @@ public class NamePairPresenter implements BasePresenter {
 
     public void updateFirstName() {
         namePairView.showProgressBar();
-        repository.updateFirstName();
-
-        if (isSubscribed) {
-            new Handler().postDelayed(() -> {
+        repository.updateFirstName(() -> {
+            if (isSubscribed) {
                 NamePair currentPair = repository.getNamePair();
                 namePairView.hideProgressBar();
                 namePairView.showFirstName(currentPair.getFirstName());
-            }, 1000);
-        }
+            }
+        });
     }
 
     public void updateLastName() {
         namePairView.showProgressBar();
-        repository.updateLastName();
-
-        if (isSubscribed) {
-            new Handler().postDelayed(() -> {
+        repository.updateLastName(() -> {
+            if (isSubscribed) {
                 NamePair currentPair = repository.getNamePair();
                 namePairView.hideProgressBar();
                 namePairView.showLastName(currentPair.getLastName());
-            }, 1000);
-        }
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,10 @@
 package de.codereddev.architecture.model;
 
+import android.os.Handler;
+
 import java.util.Random;
+
+import de.codereddev.architecture.ModelCallback;
 
 /**
  * This will simulate a data repository that could retrieve data
@@ -29,16 +33,19 @@ public class NamePairRepository {
     private NamePairRepository() {
         namePair = new NamePair(firstNames[0], lastNames[0]);
     }
-
     public NamePair getNamePair() {
         return namePair;
     }
 
-    public void updateFirstName() {
+    public void updateFirstName(ModelCallback callback) {
         namePair.setFirstName(firstNames[random.nextInt(firstNames.length)]);
+        // This simulates a data request
+        new Handler().postDelayed(callback::onModelUpdated, 1000);
     }
 
-    public void updateLastName() {
+    public void updateLastName(ModelCallback callback) {
         namePair.setLastName(lastNames[random.nextInt(lastNames.length)]);
+        // This simulates a data request
+        new Handler().postDelayed(callback::onModelUpdated, 1000);
     }
 }
